@@ -1,13 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using PruebaTecnicav2.Proveedores.Domain;
-
-namespace PruebaTecnicav2.Proveedores.Domain
+﻿namespace PruebaTecnicav2.Proveedores.Domain
 {
-    public class Proveedor
+    public class ProveedorInputModel
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
         public string? NIT { get; set; }
         public string? RazonSocial { get; set; }
         public string? Direccion { get; set; }

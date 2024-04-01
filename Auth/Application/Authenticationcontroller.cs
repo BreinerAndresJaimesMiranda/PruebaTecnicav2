@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace PruebaTecnica.Auth.Application
+namespace PruebaTecnicav2.Auth.Application
 {
     [Route("api/[controller]")]
     [ApiController]

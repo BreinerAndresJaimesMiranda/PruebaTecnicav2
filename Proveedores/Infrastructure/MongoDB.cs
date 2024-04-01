@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace PruebaTecnica.Proveedores.Infrastructure
+namespace PruebaTecnicav2.Proveedores.Infrastructure
 {
     //CADENA DE CONEXION: mongodb://localhost:27017
     //BASE DE DATOS: PruebaTecnicaDB

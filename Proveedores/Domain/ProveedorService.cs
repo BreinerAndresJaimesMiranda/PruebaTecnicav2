@@ -1,8 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using PruebaTecnica.Proveedores.Infrastructure;
+using PruebaTecnicav2.Proveedores.Infrastructure;
+using PruebaTecnicav2.Proveedores.Domain;
 
-namespace PruebaTecnica.Proveedores.Domain
+namespace PruebaTecnicav2.Proveedores.Domain
 {
     public class ProveedorService
     {
@@ -12,19 +13,28 @@ namespace PruebaTecnica.Proveedores.Domain
             await ProveedorCollection.EliminarProveedor(id);
         }
 
-        public async Task<List<Proveedor>> ConsultarProveedores()
+        public async Task<List<ProveedorViewModel>> ConsultarProveedores()
         {
-            return await ProveedorCollection.ConsultarProveedores();
+            List<Proveedor> proveedores = await ProveedorCollection.ConsultarProveedores();
+            List<ProveedorViewModel> proveedoresViewModel = new List<ProveedorViewModel>();
+            for (int i = 0; i<proveedores.Count; i++)
+            {
+                proveedoresViewModel.Add(MapearProveedorViewModel(proveedores[i]));
+            }
+            return proveedoresViewModel;
         }
 
-        public async Task<Proveedor> ConsultarProveedor(string id)
+        public async Task<ProveedorViewModel> ConsultarProveedor(string id)
         {
-            return await ProveedorCollection.ConsultarProveedor(id);
+            return MapearProveedorViewModel(await ProveedorCollection.ConsultarProveedor(id));
         }
 
-        public async Task RegistrarProveedor(Proveedor proveedor)
+        public async Task<ProveedorViewModel> RegistrarProveedor(ProveedorInputModel proveedorInputModel)
         {
-            await ProveedorCollection.RegistrarProveedor(proveedor);
+            Proveedor proveedor = MapearProveedor(proveedorInputModel);
+
+            ProveedorViewModel proveedorViewModel = MapearProveedorViewModel(await ProveedorCollection.RegistrarProveedor(proveedor));
+            return proveedorViewModel;
         }
 
         public async Task ModificarProveedor(Proveedor proveedor)
@@ -32,5 +42,37 @@ namespace PruebaTecnica.Proveedores.Domain
             await ProveedorCollection.ModificarProveedor(proveedor);
         }
 
+        private Proveedor MapearProveedor(ProveedorInputModel proveedorInputModel)
+        {
+            Proveedor proveedor = new Proveedor();
+            proveedor.NIT = proveedorInputModel.NIT;
+            proveedor.RazonSocial = proveedorInputModel.RazonSocial;
+            proveedor.Direccion = proveedorInputModel.Direccion;
+            proveedor.Ciudad = proveedorInputModel.Ciudad;
+            proveedor.Departamento = proveedorInputModel.Departamento;
+            proveedor.Correo = proveedorInputModel.Correo;
+            proveedor.Activo = proveedorInputModel.Activo;
+            proveedor.FechaCreacion = proveedorInputModel.FechaCreacion;
+            proveedor.NombreContacto = proveedorInputModel.NombreContacto;
+            proveedor.CorreoContacto = proveedorInputModel.CorreoContacto;
+            return proveedor;
+        }
+
+        private ProveedorViewModel MapearProveedorViewModel(Proveedor proveedor)
+        {
+            ProveedorViewModel proveedorViewModel = new ProveedorViewModel();
+            proveedorViewModel.Id=proveedor.Id.ToString();
+            proveedorViewModel.NIT = proveedor.NIT;
+            proveedorViewModel.RazonSocial = proveedor.RazonSocial;
+            proveedorViewModel.Direccion = proveedor.Direccion;
+            proveedorViewModel.Ciudad = proveedor.Ciudad;
+            proveedorViewModel.Departamento = proveedor.Departamento;
+            proveedorViewModel.Correo = proveedor.Correo;
+            proveedorViewModel.Activo = proveedor.Activo;
+            proveedorViewModel.FechaCreacion = proveedor.FechaCreacion;
+            proveedorViewModel.NombreContacto = proveedor.NombreContacto;
+            proveedorViewModel.CorreoContacto = proveedor.CorreoContacto;
+            return proveedorViewModel;
+        }
     }
 }

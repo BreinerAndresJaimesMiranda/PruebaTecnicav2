@@ -1,12 +1,12 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using PruebaTecnica.Proveedores.Domain;
+using PruebaTecnicav2.Proveedores.Domain;
 
-namespace PruebaTecnica.Proveedores.Infrastructure
+namespace PruebaTecnicav2.Proveedores.Infrastructure
 {
     public class ProveedorMongoCollection : IProveedorCollection
     {
-        internal MongoDB _Connection = new MongoDB("mongodb://localhost:27017", "PruebaTecnicaDB");
+        internal MongoDB _Connection = new MongoDB("mongodb+srv://admin:zVLpXRVT5xcU1Vca@cluster0.5eyrhso.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", "PruebaTecnicaDB");
         private IMongoCollection<Proveedor> Collection;// { get; set; }
 
         public ProveedorMongoCollection() 
@@ -30,9 +30,10 @@ namespace PruebaTecnica.Proveedores.Infrastructure
             return await Collection.FindAsync(new BsonDocument { {"_id",new ObjectId(id) } }).Result.FirstAsync();
         }
 
-        public async Task RegistrarProveedor(Proveedor proveedor)
+        public async Task<Proveedor> RegistrarProveedor(Proveedor proveedor)
         {
             await Collection.InsertOneAsync(proveedor);
+            return proveedor;
         }
 
         public async Task ModificarProveedor(Proveedor proveedor)

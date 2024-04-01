@@ -1,10 +1,10 @@
-﻿using PruebaTecnica.Proveedores.Domain;
+﻿using PruebaTecnicav2.Proveedores.Domain;
 
-namespace PruebaTecnica.Proveedores.Infrastructure
+namespace PruebaTecnicav2.Proveedores.Infrastructure
 {
     public interface IProveedorCollection
     {
-        Task RegistrarProveedor(Proveedor proveedor);
+        Task<Proveedor> RegistrarProveedor(Proveedor proveedor);
         Task ModificarProveedor(Proveedor proveedor);
         Task EliminarProveedor(string id);
         Task<List<Proveedor>> ConsultarProveedores();
