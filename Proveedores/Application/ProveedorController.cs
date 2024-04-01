@@ -37,13 +37,13 @@ namespace PruebaTecnicav2.Proveedores.Application
 
         [HttpPut("ModificarProveedor", Name = "ModificarProveedor")]
 
-        public async Task<IActionResult> ModificarProveedor([FromBody] Domain.Proveedor proveedor)
+        public async Task<IActionResult> ModificarProveedor([FromBody] Domain.ProveedorInputModel proveedorInputModel,String Id)
         {
-            if (proveedor == null)
+            if (proveedorInputModel == null||Id==null)
                 return BadRequest();
 
-            await proveedorService.ModificarProveedor(proveedor);
-            return Created("Proveedor Modificado", true);
+            
+            return Created("Proveedor Modificado", await proveedorService.ModificarProveedor(proveedorInputModel, Id));
         }
 
         [HttpDelete("EliminarProveedor/{id}", Name = "EliminarProveedor")]

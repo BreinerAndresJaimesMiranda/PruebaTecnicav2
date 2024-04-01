@@ -37,9 +37,14 @@ namespace PruebaTecnicav2.Proveedores.Domain
             return proveedorViewModel;
         }
 
-        public async Task ModificarProveedor(Proveedor proveedor)
+        public async Task<ProveedorViewModel> ModificarProveedor(ProveedorInputModel proveedorInputModel,string Id)
         {
-            await ProveedorCollection.ModificarProveedor(proveedor);
+            Proveedor proveedor = MapearProveedor(proveedorInputModel);
+            ProveedorViewModel proveedorViewModel;
+            await ProveedorCollection.ModificarProveedor(proveedor,Id);
+            proveedorViewModel = MapearProveedorViewModel(proveedor);
+            proveedorViewModel.Id= Id;
+            return proveedorViewModel;
         }
 
         private Proveedor MapearProveedor(ProveedorInputModel proveedorInputModel)
@@ -74,5 +79,6 @@ namespace PruebaTecnicav2.Proveedores.Domain
             proveedorViewModel.CorreoContacto = proveedor.CorreoContacto;
             return proveedorViewModel;
         }
+
     }
 }

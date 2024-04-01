@@ -36,10 +36,27 @@ namespace PruebaTecnicav2.Proveedores.Infrastructure
             return proveedor;
         }
 
-        public async Task ModificarProveedor(Proveedor proveedor)
+        public async Task ModificarProveedor(Proveedor proveedor,String Id)
         {
-            var filter = Builders<Proveedor>.Filter.Eq(s => s.Id, proveedor.Id);
-            await Collection.ReplaceOneAsync(filter,proveedor);
+            
+            //var filter = Builders<Proveedor>.Filter.Eq(s => s.Id.ToString(), Id);
+            //await Collection.ReplaceOneAsync(filter,proveedor);
+
+            var filter = Builders<Proveedor>.Filter.Eq(s => s.Id, ObjectId.Parse(Id)); // Filtrar por el Id
+            var update = Builders<Proveedor>.Update
+                .Set(s => s.NIT, proveedor.NIT)
+                .Set(s => s.RazonSocial, proveedor.RazonSocial)
+                .Set(s => s.Direccion, proveedor.Direccion)
+                .Set(s => s.Ciudad, proveedor.Ciudad)
+                .Set(s => s.Departamento, proveedor.Departamento)
+                .Set(s => s.Correo, proveedor.Correo)
+                .Set(s => s.Activo, proveedor.Activo)
+                .Set(s => s.FechaCreacion, proveedor.FechaCreacion)
+                .Set(s => s.NombreContacto, proveedor.NombreContacto)
+                .Set(s => s.CorreoContacto, proveedor.CorreoContacto);
+
+            await Collection.UpdateOneAsync(filter, update);
+
         }
     }
 }
